@@ -3,14 +3,15 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserPreferencesController;
 use App\Http\Controllers\NewsArticleController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/user/preferences', [UserController::class, 'update']);
+    Route::post('/user/preferences', [UserPreferencesController::class, 'update']);
+    Route::get('/user/preferences', [UserPreferencesController::class, 'index']);
 
     Route::get('/articles', [NewsArticleController::class, 'index']);
     Route::get('/articles/category/{category}/{date}/{source}', [NewsArticleController::class, 'getNewsByCategory']);

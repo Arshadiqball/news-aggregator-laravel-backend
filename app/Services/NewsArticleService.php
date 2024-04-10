@@ -14,9 +14,9 @@ class NewsArticleService
         $this->articleRepository = $articleRepository;
     }
 
-    public function getAllArticles()
+    public function getAllArticles($user)
     {
-        return $this->articleRepository->getAll();
+        return $this->articleRepository->getAll($user);
     }
 
     public function getNewsByCategory($category, $date, $source)

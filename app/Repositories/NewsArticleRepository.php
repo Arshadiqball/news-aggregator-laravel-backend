@@ -7,10 +7,24 @@ use Carbon\Carbon;
 
 class NewsArticleRepository
 {
-    public function getAll()
+    public function getAll($user)
     {
-        return NewsArticle::where('source', 'G API')
-            ->selectRaw('*, publish_at as publish_at_human')
+        $userPreferences = $user->preferences;
+
+        $query = NewsArticle::query();
+        if (!empty($userPreferences->source)) {
+            $sources = is_array($userPreferences->source) ? $userPreferences->source : json_decode($userPreferences->source, true);
+            $sources = is_array($sources) ? $sources : json_decode($sources, true);
+            $query->whereIn('source', $sources);
+        }
+        
+        if (!empty($userPreferences->category)) {
+            $categories = is_array($userPreferences->category) ? $userPreferences->category : json_decode($userPreferences->category, true);
+            $categories = is_array($categories) ? $categories : json_decode($categories, true);
+            $query->whereIn('category', $categories);
+        }
+        
+        return $query->selectRaw('*, publish_at as publish_at_human')
             ->get()
             ->map(function ($article) {
                 $article->publish_at_human = Carbon::parse($article->publish_at_human)->diffForHumans();

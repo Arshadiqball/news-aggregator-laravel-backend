@@ -17,7 +17,8 @@ class NewsArticleController extends Controller
 
     public function index()
     {
-        $articles = $this->articleService->getAllArticles();
+        $user = auth()->user();
+        $articles = $this->articleService->getAllArticles($user);
         return response()->json($articles);
     }
 

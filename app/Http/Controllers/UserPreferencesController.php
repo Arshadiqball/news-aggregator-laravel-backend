@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UserPreferencesController extends Controller
 {
     protected $userService;
 
@@ -19,5 +19,11 @@ class UserController extends Controller
         $user = auth()->user();
         $this->userService->updatePreferences($user, $request->only(['category', 'source']));
         return response()->json(['message' => 'User preferences updated successfully']);
+    }
+
+    public function index(Request $request)
+    {
+        $user = auth()->user();
+        return response()->json($this->userService->getPreferences($user));
     }
 }
