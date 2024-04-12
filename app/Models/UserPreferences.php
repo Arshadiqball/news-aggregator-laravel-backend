@@ -9,7 +9,7 @@ class UserPreferences extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['category', 'source'];
+    protected $fillable = ['category', 'source', 'author'];
 
     public function user()
     {

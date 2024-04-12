@@ -24,6 +24,12 @@ class NewsArticleRepository
             $query->whereIn('category', $categories);
         }
         
+        if (!empty($userPreferences->author)) {
+            $author = is_array($userPreferences->author) ? $userPreferences->author : json_decode($userPreferences->author, true);
+            $author = is_array($author) ? $author : json_decode($author, true);
+            $query->whereIn('author', $author);
+        }
+        
         return $query->selectRaw('*, publish_at as publish_at_human')
             ->get()
             ->map(function ($article) {

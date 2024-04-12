@@ -17,7 +17,7 @@ class UserPreferencesController extends Controller
     public function update(Request $request)
     {
         $user = auth()->user();
-        $this->userService->updatePreferences($user, $request->only(['category', 'source']));
+        $this->userService->updatePreferences($user, $request->only(['category', 'source','author']));
         return response()->json(['message' => 'User preferences updated successfully']);
     }
 

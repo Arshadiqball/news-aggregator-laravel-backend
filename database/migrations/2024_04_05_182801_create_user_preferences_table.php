@@ -18,6 +18,7 @@ class CreateUserPreferencesTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('category')->nullable();
             $table->string('source')->nullable();
+            $table->string('author')->nullable();
             $table->timestamps();
         });
     }
