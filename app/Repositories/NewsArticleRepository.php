@@ -10,24 +10,17 @@ class NewsArticleRepository
     public function getAll($user)
     {
         $userPreferences = $user->preferences;
-
         $query = NewsArticle::query();
-        if (!empty($userPreferences->source)) {
-            $sources = is_array($userPreferences->source) ? $userPreferences->source : json_decode($userPreferences->source, true);
-            $sources = is_array($sources) ? $sources : json_decode($sources, true);
-            $query->whereIn('source', $sources);
+        if (count(json_decode($userPreferences->source)) > 0) {
+            $query->whereIn('source', json_decode($userPreferences->source));
         }
         
-        if (!empty($userPreferences->category)) {
-            $categories = is_array($userPreferences->category) ? $userPreferences->category : json_decode($userPreferences->category, true);
-            $categories = is_array($categories) ? $categories : json_decode($categories, true);
-            $query->whereIn('category', $categories);
+        if (count(json_decode($userPreferences->category)) > 0) {
+            $query->whereIn('category', json_decode($userPreferences->category));
         }
         
-        if (!empty($userPreferences->author)) {
-            $author = is_array($userPreferences->author) ? $userPreferences->author : json_decode($userPreferences->author, true);
-            $author = is_array($author) ? $author : json_decode($author, true);
-            $query->whereIn('author', $author);
+        if (count(json_decode($userPreferences->author)) > 0) {
+            $query->whereIn('author', json_decode($userPreferences->author));
         }
         
         return $query->selectRaw('*, publish_at as publish_at_human')
